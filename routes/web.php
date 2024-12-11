@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Car;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -15,7 +17,23 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    // $carList = Car::where('user_id', auth()->id())->get();
+    $carList = [];
+    if (auth()->check()) {
+        $carList = auth()->user()->usersCar()->latest()->get();
+    }else{
+        $carList = Car::all();
+    }
+    return view('home', ['cars' => $carList]);
 });
 // [ controller, name of method of class]
+//User Routes
 Route::post('/create', [UserController::class, 'register']);
+Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/login', [UserController::class, 'login']);
+
+//Car Routes
+Route::post('/create-car', [CarController::class, 'createCar']);
+Route::get('/edit-car/{car}', [CarController::class, 'showEditScreen']);
+Route::put('/edit-car/{car}', [CarController::class, 'updateCar']);
+Route::delete('/delete-car/{car}', [CarController::class, 'deleteCar']);

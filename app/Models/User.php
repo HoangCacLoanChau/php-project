@@ -42,4 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function usersCar (){
+        //(car class, field that relate between 2 table)
+        return $this->hasMany(Car::class, 'user_id');
+    }
 }
