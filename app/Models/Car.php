@@ -9,7 +9,7 @@ class Car extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['car_name', 'company', 'image', 'price', 'user_id'];
+    protected $fillable = ['car_name', 'company', 'image', 'price', 'user_id','description'];
 
     public function user()
     {

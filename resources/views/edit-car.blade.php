@@ -7,13 +7,15 @@
 </head>
 <body>
     <h1>Edit Car</h1>
-    <form action="/edit-car/{{$car->id}}" method="POST">
+    <form action="{{route('update.car',$car->id)}}" method="POST">
     @csrf
         @method('PUT')
         <input type="text" name="car_name" value="{{$car->car_name}}">
         <input type="text" name="company" value="{{$car->company}}">
         <input type="number" name="price" value="{{$car->price}}">
         <input type="text" name="image" value="{{$car->image}}">
+        <input type="text" name="description" value="{{$car->description}}">
+
         <button>Save Changes</button>
 </form>
 </body>

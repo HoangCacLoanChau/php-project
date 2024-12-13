@@ -3,6 +3,7 @@
 use App\Models\Car;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -15,18 +16,8 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    // $carList = Car::where('user_id', auth()->id())->get();
-    $carList = [];
-    if (auth()->check()) {
-        $carList = auth()->user()->usersCar()->latest()->get();
-    }else{
-        $carList = Car::all();
-    }
-    return view('home', ['cars' => $carList]);
-});
-// [ controller, name of method of class]
+//              [ controller, name of method of class]
+Route::get('/', [CarController::class, 'viewCar'])->name('home');
 //User Routes
 Route::post('/create', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout']);
@@ -34,6 +25,14 @@ Route::post('/login', [UserController::class, 'login']);
 
 //Car Routes
 Route::post('/create-car', [CarController::class, 'createCar']);
-Route::get('/edit-car/{car}', [CarController::class, 'showEditScreen']);
-Route::put('/edit-car/{car}', [CarController::class, 'updateCar']);
-Route::delete('/delete-car/{car}', [CarController::class, 'deleteCar']);
+Route::get('/edit-car/{car}', [CarController::class, 'showEditScreen'])->name('show.edit');
+Route::put('/edit-car/{car}', [CarController::class, 'updateCar'])->name('update.car');
+Route::delete('/delete-car/{car}', [CarController::class, 'deleteCar'])->name('delete.car');
+
+//Cart
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+Route::get('/add-cart/{id}', [CartController::class, 'addCart'])->name('add.cart');
+Route::get('/increase-quantity/{id}', [CartController::class, 'increaseQuantity'])->name('increase.quantity');
+Route::get('/decrease-quantity/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease.quantity');
+Route::get('/remove/{id}', [CartController::class, 'removeCart'])->name('remove.cart');
+Route::get('/clear', [CartController::class, 'clearCart'])->name('clear.cart');
