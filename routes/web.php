@@ -16,12 +16,14 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//              [ controller, name of method of class]
+// [ controller, name of method of class]
 Route::get('/', [CarController::class, 'viewCar'])->name('home');
 //User Routes
-Route::post('/create', [UserController::class, 'register']);
+Route::get('/{login}', [UserController::class, 'viewPage'])->name('login.view');
+Route::post('/login', [UserController::class, 'login'])->name('login.action');
+Route::get('/{register}', [UserController::class, 'viewPage'])->name('register.view');
+Route::post('/register', [UserController::class, 'register'])->name('register.action');
 Route::post('/logout', [UserController::class, 'logout']);
-Route::post('/login', [UserController::class, 'login']);
 
 //Car Routes
 Route::post('/create-car', [CarController::class, 'createCar']);

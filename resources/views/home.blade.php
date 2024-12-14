@@ -7,19 +7,20 @@
     <title>Document</title>
 </head>
 
-<body >
-    @if($errors->any())
-<h3>{{$errors->first()}}</h3>
-@endif
-   
+<body>
+    @include('sweetalert::alert')
+
+    @if ($errors->any())
+        <h3>{{ $errors->first() }}</h3>
+    @endif
+
 
     @auth
-
         <form action="/logout" method="POST">
             @csrf
             <button>log out</button>
         </form>
-        <a href="{{route('cart')}}">cart</a>
+        <a href="{{ route('cart') }}">cart</a>
         <div>
             <h2>create new car</h2>
             <form action="/create-car" method="POST">
@@ -39,15 +40,15 @@
                 <div style="background-color: gray; padding:10px; margin:10px">
                     <h3>{{ $car['car_name'] }} by {{ $car->user->name }}</h3>
                     <h3>{{ $car['company'] }}</h3>
-                    <h3>@money($car->price,'USD')</h3>
+                    <h3>@money($car->price, 'USD')</h3>
                     <h3>{{ $car['image'] }}</h3>
-                    <p> <a href="{{route('show.edit',$car->id)}}">Edit</a></p>
-                    <form action="{{route('delete.car',$car->id)}}" method="POST">
+                    <p> <a href="{{ route('show.edit', $car->id) }}">Edit</a></p>
+                    <form action="{{ route('delete.car', $car->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button>Delete</button>
                     </form>
-                    <a href="{{route('add.cart', $car->id)}}"  > Add to cart</a>
+                    <a href="{{ route('add.cart', $car->id) }}"> Add to cart</a>
 
                 </div>
             @endforeach
@@ -55,7 +56,7 @@
     @else
         <div>
             <h1>Register</h1>
-            <form action="/create" method="POST">
+            <form action="{{ route('register.action') }}" method="POST">
                 @csrf
                 <input type="text" placeholder="name" name="name">
                 <input type="text" placeholder="email" name="email">
@@ -63,25 +64,20 @@
                 <button>Create</button>
             </form>
         </div>
-        <div>
-            <h1>Login</h1>
-            <form action="/login" method="POST">
-                @csrf
-                <input type="text" placeholder="login name" name="loginname">
-                <input type="password" placeholder="login password" name="loginpassword">
-                <button>Login</button>
-            </form>
-        </div>
+
+        <a href="/register"> <button>register</button></a>
+        <a href="/login"> <button>Login</button></a>
+
         <h1>All Cars</h1>
         @foreach ($cars as $car)
             <div>
                 <div style="background-color: gray; padding:10px; margin:10px">
                     <h3>{{ $car['car_name'] }} by {{ $car->user->name }}</h3>
                     <h3>{{ $car['company'] }}</h3>
-                    <h3>@money($car->price,'USD')</h3>
+                    <h3>@money($car->price, 'USD')</h3>
                     <h3>{{ $car['description'] }}</h3>
                     <h3>{{ $car['image'] }}</h3>
-                   <a href="{{route('add.cart', $car->id)}}"  > Add to cart</a>
+                    <a href="{{ route('add.cart', $car->id) }}"> Add to cart</a>
                 </div>
         @endforeach
     @endauth
