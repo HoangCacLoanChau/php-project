@@ -9,18 +9,13 @@
 
 <body>
     @include('sweetalert::alert')
-
-    @if ($errors->any())
-        <h3>{{ $errors->first() }}</h3>
-    @endif
-
-
     @auth
         <form action="/logout" method="POST">
             @csrf
             <button>log out</button>
         </form>
         <a href="{{ route('cart') }}">cart</a>
+
         <div>
             <h2>create new car</h2>
             <form action="/create-car" method="POST">
@@ -54,19 +49,8 @@
             @endforeach
         </div>
     @else
-        <div>
-            <h1>Register</h1>
-            <form action="{{ route('register.action') }}" method="POST">
-                @csrf
-                <input type="text" placeholder="name" name="name">
-                <input type="text" placeholder="email" name="email">
-                <input type="password" placeholder="password" name="password">
-                <button>Create</button>
-            </form>
-        </div>
-
-        <a href="/register"> <button>register</button></a>
-        <a href="/login"> <button>Login</button></a>
+        <a href="{{ route('register.view') }}"> <button>register</button></a>
+        <a href="{{ route('login.view') }}"> <button>Login</button></a>
 
         <h1>All Cars</h1>
         @foreach ($cars as $car)

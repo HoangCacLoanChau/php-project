@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
+
     @extends('layout') 
     @section('content')
         <h1>Edit Car</h1>

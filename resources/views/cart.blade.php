@@ -1,20 +1,15 @@
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-
 <body>
-
     <div>
         @if (Session::has('success'))
             <div class="alert alert-success">
                 <h1>{{ Session::get('success') }}</h1>
-
-
             </div>
         @endif
         @if($cartTotalQuantity == 0)    
@@ -30,7 +25,6 @@
                 <span><a href="{{route('decrease.quantity',$item->id)}}">-</a></span>
                 <input type="text" value="{{ $item->quantity }}">
                 <span><a href="{{route('increase.quantity',$item->id)}}">+</a></span>
-
             </div>
             <span>@money($item->price, 'USD')</span>
             <button>
@@ -40,5 +34,4 @@
         @endif
     </div>
 </body>
-
 </html>

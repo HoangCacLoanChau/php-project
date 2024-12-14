@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 class CarController extends Controller
 {
     public function viewCar(){
-     //  $carList = Car::where('user_id', auth()->id())->get();
     $carList = [];
     // if (auth()->check()) {
     //     $carList = auth()->user()->usersCar()->latest()->get();
