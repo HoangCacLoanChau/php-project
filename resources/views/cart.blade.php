@@ -1,15 +1,5 @@
 @extends('layout')
 @section('content')
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-
-    </head>
-
     <body>
         @include('sweetalert::alert')
         {{--  --}}
@@ -23,6 +13,16 @@
                 });
             </script>
         @endif
+        @if (Session::has('checkout'))
+        <script>
+            Swal.fire({
+                title: 'checkout!',
+                text: '{{ session('checkout') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
         {{--  --}}
         @if ($cartTotalQuantity == 0)
             <div class="flex flex-col h-screen my-auto items-center justify-center text-5xl space-y-2">
@@ -164,7 +164,7 @@
                                     </dl>
                                 </div>
 
-                                <a href="#"
+                                <a href={{route('clear.cart')}}
                                     class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed
                                     to Checkout</a>
 
@@ -189,6 +189,4 @@
             </section>
         @endif
     </body>
-
-    </html>
 @endsection

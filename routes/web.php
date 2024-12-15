@@ -26,13 +26,7 @@ Route::post('/register', [UserController::class, 'register'])->name('register.ac
 Route::post('/logout', [UserController::class, 'logout']);
 
 //Car 
-Route::get('/handle-car', [CarController::class, 'handleCar'])->name('handle.car');
 Route::get('/detail-car/{id}', [CarController::class, 'detailCar'])->name('detail.car');
-Route::get('/edit-car/{car}', [CarController::class, 'showEditScreen'])->name('show.edit');
-Route::post('/create-car', [CarController::class, 'createCar']);
-Route::put('/edit-car/{car}', [CarController::class, 'updateCar'])->name('update.car');
-Route::delete('/delete-car/{car}', [CarController::class, 'deleteCar'])->name('delete.car');
-
 //Cart
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'cart'])->name('cart');
@@ -41,4 +35,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/decrease-quantity/{id}', [CartController::class, 'decreaseQuantity'])->name('decrease.quantity');
     Route::get('/remove/{id}', [CartController::class, 'removeCart'])->name('remove.cart');
     Route::get('/clear', [CartController::class, 'clearCart'])->name('clear.cart');
+//car
+Route::get('/handle-car', [CarController::class, 'handleCar'])->name('handle.car');
+Route::get('/edit-car/{car}', [CarController::class, 'showEditScreen'])->name('show.edit');
+Route::post('/create-car', [CarController::class, 'createCar']);
+Route::put('/edit-car/{car}', [CarController::class, 'updateCar'])->name('update.car');
+Route::delete('/delete-car/{car}', [CarController::class, 'deleteCar'])->name('delete.car');
 }); 

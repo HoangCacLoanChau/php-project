@@ -51,8 +51,10 @@ class CarController extends Controller
         $newCar['price'] = strip_tags($newCar['price']);
         $newCar['description'] = strip_tags($newCar['description']);
         $newCar['image'] = $request->image->storeAs('image', $fileName, 'public');
-
         $newCar['user_id'] = auth()->id();
+        if(!$newCar){
+            return redirect('/');
+        }
         Car::create($newCar);
         return redirect('/');
     }

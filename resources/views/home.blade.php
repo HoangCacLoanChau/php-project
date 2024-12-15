@@ -2,7 +2,6 @@
 @section('content')
 
     <body>
-        @include('sweetalert::alert')
         @auth
             <div>
             </div>

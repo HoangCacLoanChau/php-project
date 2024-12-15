@@ -27,4 +27,13 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    public function render($request, Throwable $exception)
+{
+    if ($exception instanceof \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException) {
+        // Return a custom error page or message
+        return redirect('/');
+    }
+
+    return parent::render($request, $exception);
+}
 }

@@ -66,6 +66,7 @@ class CartController extends Controller
     {
         $userId = auth()->user()->id;
         Cart::session($userId)->clear();
-        return back()->with('success', 'no item');
+        return back()->with('checkout', 'Checkout successfully.Thank you for shopping at our store 😘');
+
     }
 }

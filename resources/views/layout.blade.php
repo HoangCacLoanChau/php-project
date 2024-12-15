@@ -178,7 +178,7 @@
     <!-- Navbar Area End -->
 
 
-    <div class="my-10">
+    <div >
         @yield('content')
 
     </div>
