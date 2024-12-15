@@ -56,7 +56,7 @@ class UserController extends Controller
     public function logout()
     {   session()->flush();
         auth()->logout();
-        alert()->success('Logout', 'See you again😍');
         return redirect('/');
+        alert()->success('Logout', 'See you again😍');
     }
 }

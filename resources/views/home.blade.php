@@ -1,70 +1,235 @@
-<html lang="en">
+@extends('layout')
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    @include('sweetalert::alert')
-    @auth
-        <form action="/logout" method="POST">
-            @csrf
-            <button>log out</button>
-        </form>
-        <a href="{{ route('cart') }}">cart</a>
-
-        <div>
-            <h2>create new car</h2>
-            <form action="/create-car" method="POST">
-                @csrf
-                <input type="text" name="car_name" placeholder="car name">
-                <input type="text" name="company" placeholder="company name">
-                <input type="number" name="price" placeholder="car price">
-                <input type="text" name="image" placeholder="image">
-                <input type="text" name="description" placeholder="description">
-
-                <button>Save</button>
-            </form>
-        </div>
-        <div>
-            <h2>my cars</h2>
-            @foreach ($cars as $car)
-                <div style="background-color: gray; padding:10px; margin:10px">
-                    <h3>{{ $car['car_name'] }} by {{ $car->user->name }}</h3>
-                    <h3>{{ $car['company'] }}</h3>
-                    <h3>@money($car->price, 'USD')</h3>
-                    <h3>{{ $car['image'] }}</h3>
-                    <p> <a href="{{ route('show.edit', $car->id) }}">Edit</a></p>
-                    <form action="{{ route('delete.car', $car->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button>Delete</button>
-                    </form>
-                    <a href="{{ route('add.cart', $car->id) }}"> Add to cart</a>
-
-                </div>
-            @endforeach
-        </div>
-    @else
-        <a href="{{ route('register.view') }}"> <button>register</button></a>
-        <a href="{{ route('login.view') }}"> <button>Login</button></a>
-
-        <h1>All Cars</h1>
-        @foreach ($cars as $car)
+    <body>
+        @include('sweetalert::alert')
+        @auth
             <div>
-                <div style="background-color: gray; padding:10px; margin:10px">
-                    <h3>{{ $car['car_name'] }} by {{ $car->user->name }}</h3>
-                    <h3>{{ $car['company'] }}</h3>
-                    <h3>@money($car->price, 'USD')</h3>
-                    <h3>{{ $car['description'] }}</h3>
-                    <h3>{{ $car['image'] }}</h3>
-                    <a href="{{ route('add.cart', $car->id) }}"> Add to cart</a>
-                </div>
-        @endforeach
-    @endauth
-</body>
+            </div>
+            <div>
+                <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
+                    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                        <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+                            @foreach ($cars as $car)
+                                <div
+                                    class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                                    <div class="h-56 w-full">
+                                        <a href={{route('detail.car',$car['id'])}}>
+                                            {{-- image --}}
+                                            <img class="mx-auto h-full dark:hidden" src="{{ asset('storage/' . $car->image) }}" alt="" />
+                                            <img class="mx-auto hidden h-full dark:block" src="{{ asset('storage/' . $car->image) }}"
+                                                alt="" />
+                                        </a>
+                                    </div>
+                                    <div class="pt-6">
+                                        <div class="mb-4 flex items-center justify-between gap-4">
+                                            <span
+                                                class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
+                                                Up to 35% off </span>
+                                        </div>
+                                        {{-- name --}}  
+                                        <a href={{route('detail.car',$car['id'])}}
+                                            class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ $car['car_name'] }}</a>
+                                        <p class="text-sm text-gray-700 dark:text-gray-400 mt-1">
+                                            <span class="font-medium text-gray-800 dark:text-gray-300">Company: </span>
+                                            <span>{{ $car->company }}</span>
+                                        </p>
+                                        <div class="mt-2 flex items-center gap-2">
+                                            <div class="flex items-center">
+                                                <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                                </svg>
 
-</html>
+                                                <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                                </svg>
+
+                                                <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                                </svg>
+
+                                                <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                                </svg>
+
+                                                <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                                </svg>
+                                            </div>
+
+                                            <p class="text-sm font-medium text-gray-900 dark:text-white">5.0</p>
+                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(455)</p>
+                                        </div>
+
+                                        <ul class="mt-2 flex items-center gap-4">
+                                            <li class="flex items-center gap-2">
+                                                <svg class="h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                                                </svg>
+                                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery
+                                                </p>
+                                            </li>
+
+                                            <li class="flex items-center gap-2">
+                                                <svg class="h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                        d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                                </svg>
+                                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
+                                            </li>
+                                        </ul>
+
+                                        <div class="mt-4 mb-2 flex items-center justify-between gap-4">
+                                            <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
+                                                @money($car->price, 'USD')</p>
+                                        </div>
+                                        <a href="{{ route('add.cart', $car->id) }}">
+                                            <button type="button"
+                                                class=" inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                                <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                                                </svg>
+                                                Add to cart
+                                            </button>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        @else
+            <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
+                <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                    <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+                        @foreach ($cars as $car)
+                            <div
+                                class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                                <div class="h-56 w-full">
+                                    <a href="#">
+                                        {{-- image --}}
+                                        <img class="mx-auto h-full dark:hidden" src="{{ asset('storage/' . $car->image) }}" alt="" />
+                                        <img class="mx-auto hidden h-full dark:block" src="{{ asset('storage/' . $car->image) }}" alt="" />
+                                        
+                                    </a>
+                                </div>
+                                <div class="pt-6">
+                                    <div class="mb-4 flex items-center justify-between gap-4">
+                                        <span
+                                            class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
+                                            Up to 35% off </span>
+                                    </div>
+                                    {{-- name --}}
+                                    <a href="#"
+                                        class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ $car['car_name'] }}</a>
+                                    <p class="text-sm text-gray-700 dark:text-gray-400 mt-1">
+                                        <span class="font-medium text-gray-800 dark:text-gray-300">Company: </span>
+                                        <span>{{ $car->company }}</span>
+                                    </p>
+                                    <div class="mt-2 flex items-center gap-2">
+                                        <div class="flex items-center">
+                                            <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                            </svg>
+
+                                            <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                            </svg>
+
+                                            <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                            </svg>
+
+                                            <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                            </svg>
+
+                                            <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                                            </svg>
+                                        </div>
+
+                                        <p class="text-sm font-medium text-gray-900 dark:text-white">5.0</p>
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(455)</p>
+                                    </div>
+
+                                    <ul class="mt-2 flex items-center gap-4">
+                                        <li class="flex items-center gap-2">
+                                            <svg class="h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                                            </svg>
+                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Delivery</p>
+                                        </li>
+
+                                        <li class="flex items-center gap-2">
+                                            <svg class="h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                                                    d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                                            </svg>
+                                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
+                                        </li>
+                                    </ul>
+
+                                    <div class="mt-4 mb-2 flex items-center justify-between gap-4">
+                                        <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
+                                            @money($car->price, 'USD')</p>
+                                    </div>
+                                    <a href="{{ route('add.cart', $car->id) }}">
+                                        <button type="button"
+                                            class=" inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                            <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                                            </svg>
+                                            Add to cart
+                                        </button>
+                                    </a>
+
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+            </div>
+        @endauth
+    </body>
+@endsection

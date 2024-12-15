@@ -21,7 +21,6 @@ class CartController extends Controller
     // add cart
     public function addCart($carId)
     {
-        
         $userId = auth()->user()->id;
         $cars = Car::findOrFail($carId);
 
@@ -29,18 +28,20 @@ class CartController extends Controller
             'id' => $carId,
             'name' => $cars->car_name,
             'price' => $cars->price,
-            'company' => $cars->company,
             'quantity' => 1,
             'attributes' => [
+                'company' => $cars->company,
                 'image' => $cars->image,
             ],
             'associatedModel' => $cars,
         ]);
+        toast('Item has been added to cart','success');
         return redirect('/')->with('success', 'Item has been added to cart');
     }
     //add quantity
     public function increaseQuantity($carId)
     {
+        $userId = auth()->user()->id;
         Cart::session($userId)->update($carId, ['quantity' => +1]);
         return redirect()->back()->with('success', 'quantity has been increased');
     }
@@ -50,7 +51,7 @@ class CartController extends Controller
         $userId = auth()->user()->id;
         $quantity = Cart::session($userId)->get($carId, ['quantity']);
         Cart::session($userId)->update($carId, ['quantity' => -1]);
-        
+
         return redirect()->back()->with('success', 'quantity has been decreased');
     }
     //remove item
@@ -58,7 +59,7 @@ class CartController extends Controller
     {
         $userId = auth()->user()->id;
         Cart::session($userId)->remove($carId);
-        return back()->with('success', 'remove successfully');
+        return back()->with('remove', 'remove successfully');
     }
     //clear cart
     public function clearCart()
