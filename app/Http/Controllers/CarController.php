@@ -13,7 +13,7 @@ class CarController extends Controller
         // if (auth()->check()) {
         //     $carList = auth()->user()->usersCar()->latest()->get();
         // }else{
-        $carList = Car::orderBy('created_at', 'desc')->get();
+        $carList = Car::orderBy('created_at', 'desc')->paginate(8); 
         // }
         return view('home', ['cars' => $carList]);
     }

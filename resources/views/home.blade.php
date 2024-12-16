@@ -1,6 +1,15 @@
 @extends('layout')
 @section('content')
-
+<style>
+    nav[role="navigation"] {
+        background-color: #f9f9f9;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        gap:20px;
+        justify-content: space-between;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
     <body>
         @auth
             <div>
@@ -225,6 +234,9 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    <div class="mt-4 p-4 flex justify-center">
+                        {{ $cars->links() }}
                     </div>
                 </div>
             </section>
