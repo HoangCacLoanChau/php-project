@@ -104,7 +104,7 @@
                                             {{-- name, company --}}
                                             <div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
                                                 <div class="">
-                                                    <a href="#"
+                                                    <a href={{route('detail.car', $item->id)}}
                                                         class="text-base font-medium text-gray-900 hover:underline dark:text-white">{{ $item->name }}</a>
                                                     <p>
                                                         <span class="text-sm text-gray-500 font-semibold">Company: </span>

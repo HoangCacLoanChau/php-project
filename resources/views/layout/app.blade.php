@@ -18,21 +18,26 @@
         class="bg-white dark:bg-gray-900 shadow  w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div class="max-w-screen-3xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://i.pinimg.com/originals/48/6e/32/486e32d2271b5a3774217d33a1d9c778.jpg" class="h-16" alt="logo">
+                <img src="https://i.pinimg.com/originals/48/6e/32/486e32d2271b5a3774217d33a1d9c778.jpg" class="h-16"
+                    alt="logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Car Store</span>
             </a>
             <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse justify-evenly">
+
                 @auth
-                    {{-- handle car --}}
-                    <a href={{ route('handle.car') }}>
-                        <button
-                            class="  block text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 me-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            type="button">
-                            Dashboard
-                        </button>
-                    </a>
-                   
-                    {{-- end create modal --}}
+                    <div class="text-sm font-semibold text-gray-800 p-4 ">
+                        Hello, {{ Auth::user()->name }}
+                    </div>
+                    @if (Auth::user()->is_admin === 1)
+                        {{-- handle car --}}
+                        <a href={{ route('handle.car') }}>
+                            <button
+                                class="  block text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 me-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type="button">
+                                Dashboard
+                            </button>
+                        </a>
+                    @endif
                     {{-- cart --}}
                     <a href="{{ route('cart') }}"><button type="button"
                             class=" flex items-center justify-evenly focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
@@ -91,7 +96,7 @@
     <!-- Navbar Area End -->
 
 
-    <div >
+    <div>
         @yield('content')
 
     </div>
@@ -154,8 +159,8 @@
                 </span>
                 <div class="flex mt-4 sm:justify-center sm:mt-0">
                     <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 8 19">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 8 19">
                             <path fill-rule="evenodd"
                                 d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z"
                                 clip-rule="evenodd" />

@@ -16,7 +16,7 @@ class CartController extends Controller
         $items = Cart::session($userId)->getContent()->sort();
         $total = Cart::session($userId)->getTotal();
         $cartTotalQuantity = Cart::session($userId)->getTotalQuantity() ?? 0;
-        return view('cart', compact('items', 'total', 'cartTotalQuantity'));
+        return view('user.cart', compact('items', 'total', 'cartTotalQuantity'));
     }
     // add cart
     public function addCart($carId)
