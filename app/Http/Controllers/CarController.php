@@ -7,13 +7,18 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    public function viewCar()
+    public function viewCar(Request $request)
     {
-        $carList = [];
+        $query = Car::query();
 
-        $carList = Car::orderBy('created_at', 'desc')->paginate(8);
-
-        return view('user.car-list', ['cars' => $carList]);
+        // Check if there is a search term
+        if ($request->has('search') && $request->search != '') {
+            // Filter by name or company
+            $query->where('car_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('company', 'like', '%' . $request->search . '%');
+        }
+        $carList = $query->orderBy('created_at', 'desc')->paginate(8);
+        return view('user.car-list', ['cars' => $carList, 'search' => $request->search]);
     }
 
     public function detailCar($carId)
@@ -24,13 +29,18 @@ class CarController extends Controller
         // Return a view with the car details
         return view('user.detail-car', compact('car'));
     }
-    public function handleCar()
+    public function handleCar(Request $request)
     {
-        $carList = [];
+        $query = Car::query();
 
-        $carList = Car::orderBy('created_at', 'desc')->paginate(5);
-
-        return view('admin.handle-car', ['items' => $carList]);
+        // Check if there is a search term
+        if ($request->has('search') && $request->search != '') {
+            // Filter by name or company
+            $query->where('car_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('company', 'like', '%' . $request->search . '%');
+        }
+        $carList = $query->orderBy('created_at', 'desc')->paginate(8);
+        return view('admin.handle-car', ['items' => $carList, 'search' => $request->search]);
     }
     public function createCar(Request $request)
     {
