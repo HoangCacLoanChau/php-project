@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin', 
     ];
 
     /**
@@ -31,6 +32,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_admin'=> 0,  // mormal users
     ];
 
     /**
@@ -42,8 +44,5 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function usersCar (){
-        //(car class, field that relate between 2 table)
-        return $this->hasMany(Car::class, 'user_id');
-    }
+   
 }

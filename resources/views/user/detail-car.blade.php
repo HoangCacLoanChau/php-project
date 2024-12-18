@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.app')
 @section('content')
     <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">

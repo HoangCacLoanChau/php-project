@@ -1,4 +1,5 @@
- @extends('layout')
+@extends('admin.dashboard')
+@section('title', 'Edit Car')
  @section('content')     
      <div class="p-4 md:p-5">
         <h1 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Edit Car</h1>
