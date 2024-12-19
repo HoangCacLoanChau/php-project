@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Alert;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:4|max:20',
         ]);
 
         $user = User::create([
@@ -39,14 +40,14 @@ class UserController extends Controller
         } else {
             alert()->success('Done', 'Registration successfully. please Login to continue shopping 😘');
             //intended: return back to previous page
-            return redirect()->route('home')->with('success', 'Registration successfully. please Login to continue shopping 😘');
+            return redirect()->route('car.list')->with('success', 'Registration successfully. please Login to continue shopping 😘');
         }
     }
     public function login(Request $request)
     {
         $loginData = $request->validate([
             'email' => ['required'],
-            'loginpassword' => 'required',
+            'loginpassword' => 'required|string|min:4|max:20',
         ]);
 
         // Check for other users with valid credentials
@@ -59,10 +60,10 @@ class UserController extends Controller
                 return redirect(route('handle.car'));
             }
 
-            // Redirect to regular user home page if not an admin
+            // Redirect to regular user page if not an admin
             $request->session()->regenerate();
             toast('Login Successfully', 'success');
-            return redirect(route('home')); 
+            return redirect(route('car.list')); 
         }
          else {
             toast('Your email or password is incorrect', 'error');

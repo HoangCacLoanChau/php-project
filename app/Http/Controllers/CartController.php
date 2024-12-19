@@ -36,7 +36,7 @@ class CartController extends Controller
             'associatedModel' => $cars,
         ]);
         toast('Item has been added to cart','success');
-        return redirect('/')->with('success', 'Item has been added to cart');
+        return redirect(route('car.list'))->with('success', 'Item has been added to cart');
     }
     //add quantity
     public function increaseQuantity($carId)
@@ -66,7 +66,9 @@ class CartController extends Controller
     {
         $userId = auth()->user()->id;
         Cart::session($userId)->clear();
+        alert()->success('checkout','Checkout successfully.Thank you for shopping at our store 😘');
         return back()->with('checkout', 'Checkout successfully.Thank you for shopping at our store 😘');
+        
 
     }
 }

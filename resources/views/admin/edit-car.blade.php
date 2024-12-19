@@ -2,8 +2,6 @@
 @section('title', 'Edit Car')
  @section('content')     
      <div class="p-4 md:p-5">
-        <h1 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Edit Car</h1>
-
          <form action="{{ route('update.car', $car->id) }}" method="POST" class="max-w-sm mx-auto " enctype="multipart/form-data">
              @csrf
              @method('PUT')
@@ -32,7 +30,7 @@
                  <div class="mb-5">
                      <div>
                          <label for="image" class="block text-sm font-medium text-gray-700">Upload Image</label>
-                         <input type="file" name="image" id="image" accept="image/*" required 
+                         <input type="file" name="image" id="image" accept="image/*"  value="{{ asset('storage/' . $car->image) }}"
                              class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
                      </div>
                  </div>

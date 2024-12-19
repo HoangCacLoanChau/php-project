@@ -7,18 +7,38 @@ use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
+    public function viewCarHomepage()
+    {
+        $carList = Car::orderBy('created_at', 'desc')->paginate(20);
+        return view('user.homepage', ['cars' => $carList]);
+    }
+
     public function viewCar(Request $request)
     {
         $query = Car::query();
 
         // Check if there is a search term
         if ($request->has('search') && $request->search != '') {
-            // Filter by name or company
-            $query->where('car_name', 'like', '%' . $request->search . '%')
-                  ->orWhere('company', 'like', '%' . $request->search . '%');
+            $query->where('car_name', 'like', '%' . $request->search . '%');
         }
+
+        // Check if there is a company filter
+        if ($request->has('company') && $request->company != '') {
+            $query->where('company', $request->company);
+        }
+
+        // Apply ordering and pagination
         $carList = $query->orderBy('created_at', 'desc')->paginate(8);
-        return view('user.car-list', ['cars' => $carList, 'search' => $request->search]);
+
+        // Get the list of companies for the dropdown
+        $companies = Car::distinct()->pluck('company'); // Get distinct company names
+
+        return view('user.car-list', [
+            'cars' => $carList,
+            'search' => $request->search,
+            'company' => $request->company,
+            'companies' => $companies, // Pass companies to the view
+        ]);
     }
 
     public function detailCar($carId)
@@ -36,8 +56,7 @@ class CarController extends Controller
         // Check if there is a search term
         if ($request->has('search') && $request->search != '') {
             // Filter by name or company
-            $query->where('car_name', 'like', '%' . $request->search . '%')
-                  ->orWhere('company', 'like', '%' . $request->search . '%');
+            $query->where('car_name', 'like', '%' . $request->search . '%')->orWhere('company', 'like', '%' . $request->search . '%');
         }
         $carList = $query->orderBy('created_at', 'desc')->paginate(8);
         return view('admin.handle-car', ['items' => $carList, 'search' => $request->search]);
@@ -76,17 +95,19 @@ class CarController extends Controller
             'car_name' => 'required',
             'company' => 'required',
             'price' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'nullable',
         ]);
 
         // strip_tags: not allow to add code like HTML or PHP tags.
-        $fileName = time() . '.' . $request->image->extension();
-        $updateCar['image'] = $request->image->storeAs('image', $fileName, 'public');
+        if ($request->hasFile('image')) {
+            $fileName = time() . '.' . $request->image->extension();
+            $updateCar['image'] = strip_tags($updateCar['image']);
+            $updateCar['image'] = $request->image->storeAs('image', $fileName, 'public');
+        }
         $updateCar['car_name'] = strip_tags($updateCar['car_name']);
         $updateCar['company'] = strip_tags($updateCar['company']);
         $updateCar['price'] = strip_tags($updateCar['price']);
-        $updateCar['image'] = strip_tags($updateCar['image']);
         $updateCar['description'] = strip_tags($updateCar['description']);
 
         $car->update($updateCar);

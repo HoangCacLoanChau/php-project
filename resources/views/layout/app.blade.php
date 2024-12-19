@@ -77,8 +77,8 @@
                             aria-current="page">Home</a>
                     </li>
                     <li>
-                        <a href="#"
-                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
+                        <a href={{route('car.list')}}
+                            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Shopping</a>
                     </li>
                     <li>
                         <a href="#"
@@ -110,10 +110,10 @@
         <div class="mx-auto w-full max-w-screen-3xl p-4 py-6 lg:py-8  ">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
-                    <a href="https://flowbite.com/" class="flex items-center">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" />
+                    <a href={{route('home')}} class="flex items-center">
+                        <img src="/car_icon.jpg" class="h-8 me-3" alt="FlowBite Logo" />
                         <span
-                            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Car Store</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -155,7 +155,7 @@
             <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
             <div class="sm:flex sm:items-center sm:justify-between">
                 <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a
-                        href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
+                        href="https://flowbite.com/" class="hover:underline">Car Store</a>. All Rights Reserved.
                 </span>
                 <div class="flex mt-4 sm:justify-center sm:mt-0">
                     <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
